@@ -1,5 +1,7 @@
 电视直播,#genre#
-中央2台,http://zteres.sn.chinamobile.com:6060/000000001000/5000000005000031113/1.m3u8?channel-id=bestzb&Contentid=5000000005000031113&livemode=1&stbId=3
-中央3台,http://zteres.sn.chinamobile.com:6060/000000001000/6000000001000022313/1.m3u8?channel-id=wasusyt&Contentid=6000000001000022313&livemode=1&stbId=3
-珠江台,http://zteres.sn.chinamobile.com:6060/000000001000/2000000003000000033/1.m3u8?channel-id=hnbblive&Contentid=2000000003000000033&livemode=1&stbId=3
-大湾区卫视,http://zteres.sn.chinamobile.com:6060/000000001000/2000000003000000045/1.m3u8?channel-id=hnbblive&Contentid=2000000003000000045&livemode=1&stbId=3
+中央2台,http://113.78.252.188:8888/rtp/239.77.1.28:5146
+中央3台,http://113.78.252.188:8888/rtp/239.0.10.52:5052
+中央3台,http://113.78.252.188:8888/rtp/239.77.0.32:5146
+珠江台,http://113.78.252.188:8888/rtp/239.77.0.3:5146
+珠江台,http://113.78.252.188:8888/rtp/239.77.1.94:5146
+大湾区卫视,http://39.134.24.162/dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226218/index.m3u8
