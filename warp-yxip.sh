@@ -1,5 +1,8 @@
 #!/bin/bash
 # wget -N https://jmakchnn.github.io/warp-yxip.sh && bash warp-yxip.sh
+
+# wget -N https://raw.gitmirror.com/jmakchnn/jmakchnn.github.io/main/warp-yxip.sh && bash warp-yxip.sh
+
 RED="\033[31m"
 GREEN="\033[32m"
 YELLOW="\033[33m"
