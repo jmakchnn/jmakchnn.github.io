@@ -33,7 +33,7 @@ archAffix(){
 
 endpointyx(){    
     # 下载优选工具软件，感谢某匿名网友的分享的优选工具
-    wget https://jmakchnn.github.io/warp-linux-$(archAffix) -O warp
+    wget https://raw.gitmirror.com/jmakchnn/jmakchnn.github.io/main/warp-linux-$(archAffix) -O warp
     
     # 取消 Linux 自带的线程限制，以便生成优选 Endpoint IP
     ulimit -n 102400
