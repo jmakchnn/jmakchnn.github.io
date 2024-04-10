@@ -2,7 +2,7 @@
 # better-cloudflare-ip
 # curl https://jmakchnn.github.io/se/cf.sh -o cf.sh && chmod +x cf.sh && ./cf.sh
 
-# curl https://raw.gitmirror.com/jmakchnn/jmakchnn.github.io/main/cf.sh -o cf.sh && chmod +x cf.sh && ./cf.sh
+# curl https://cdn.jsdelivr.net/gh/jmakchnn/jmakchnn.github.io@main/cf.sh -o cf.sh && chmod +x cf.sh && ./cf.sh
 
 function bettercloudflareip(){
 read -p "请设置期望的带宽大小(默认最小1,单位 Mbps):" bandwidth
