@@ -22,7 +22,7 @@ allow-lan: true
 mixed-port: 7890
 unified-delay: false
 tcp-concurrent: true
-external-controller: 127.0.0.1:9090
+external-controller: 0.0.0.0:9090
 external-ui: ui
 external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
 
@@ -76,8 +76,8 @@ dns:
       - https://doh.pub/dns-query
       - https://dns.alidns.com/dns-query
     "rule-set:geolocation-!cn":
-      - "https://dns.cloudflare.com/dns-query#dns"
-      - "https://dns.google/dns-query#dns"
+      - "https://dns.google/dns-query"
+      - "https://cloudflare-dns.com/dns-query"
 proxies:
 - name: "直连"
   type: direct
@@ -113,6 +113,7 @@ proxy-groups:
 
 rules:
   - DOMAIN,hub5btmain.sandai.net,直连
+  - DOMAIN,www.520click.com,其他
   - RULE-SET,adrules,reject
   - RULE-SET,category-ads-all,reject
   - GEOIP,lan,直连,no-resolve
