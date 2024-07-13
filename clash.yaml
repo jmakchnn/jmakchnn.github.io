@@ -63,7 +63,7 @@ dns:
     - "*"
     - "+.lan"
     - "+.local"
-    - "master.wap.dphub.sandai.net"
+    - "+.sandai.net"
   default-nameserver:
     - 223.5.5.5
   nameserver:
@@ -112,7 +112,7 @@ proxy-groups:
   - {name: 自动选择, type: url-test, include-all-providers: true, tolerance: 10}
 
 rules:
-  - DOMAIN,hub5btmain.sandai.net,直连
+  - DOMAIN-KEYWORD,sandai.net,直连
   - DOMAIN,www.520click.com,其他
   - RULE-SET,adrules,reject
   - RULE-SET,category-ads-all,reject
