@@ -20,10 +20,7 @@
     "dns": {
         "servers": [{
             "tag": "proxyDns",
-            "address": [
-                "h3://cloudflare-dns.com/dns-query",
-                "h3://dns.google/dns-query"
-            ],
+            "address": "h3://cloudflare-dns.com/dns-query",
             "address_resolver": "systemdns",
             "address_strategy": "ipv4_only",
             "strategy": "ipv4_only",
@@ -32,10 +29,7 @@
         },
             {
                 "tag": "localDns",
-                "address": [
-                    "h3://dns.alidns.com/dns-query",
-                    "https://doh.pub/dns-query"
-                ],
+                "address": "h3://dns.alidns.com/dns-query",
                 "address_resolver": "systemdns",
                 "address_strategy": "ipv4_only",
                 "strategy": "ipv4_only",
