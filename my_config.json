@@ -20,13 +20,30 @@
     "dns": {
         "servers": [{
             "tag": "proxyDns",
-            "address": ["https://1.1.1.1/dns-query", "https://8.8.8.8/dns-query"],
+            "address": [
+                "h3://cloudflare-dns.com/dns-query",
+                "h3://dns.google/dns-query"
+            ],
+            "address_resolver": "systemdns",
+            "address_strategy": "ipv4_only",
+            "strategy": "ipv4_only",
             "client_subnet": "1.0.1.0",
             "detour": "Proxy"
         },
             {
                 "tag": "localDns",
-                "address": ["https://223.5.5.5/dns-query", "https://1.12.12.12/dns-query"],
+                "address": [
+                    "h3://dns.alidns.com/dns-query",
+                    "https://doh.pub/dns-query"
+                ],
+                "address_resolver": "systemdns",
+                "address_strategy": "ipv4_only",
+                "strategy": "ipv4_only",
+                "detour": "direct"
+            },
+            {
+                "tag": "systemdns",
+                "address": "223.5.5.5",
                 "detour": "direct"
             },
             {
