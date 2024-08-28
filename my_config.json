@@ -333,6 +333,16 @@
             ],
             "filter":[{
                 "action":"include","keywords":["🇺🇸|US|us|美国|美|United States"]}]
+        },
+        {
+            "tag":"auto",
+            "type":"urltest",
+            "outbounds":[
+                "{all}"
+            ],
+            "url": "http://www.gstatic.com/generate_204",
+            "interval": "10m",
+            "tolerance": 50
         }],
     "route": {
         "auto_detect_interface": true,
