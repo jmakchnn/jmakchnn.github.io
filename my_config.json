@@ -45,8 +45,10 @@
                 "address": "rcode://success"
             }],
         "rules": [{
-            "rule_set": ["geosite-category-ads-all",
-                "myads"],
+            "rule_set": [
+                "geosite-category-ads-all",
+                "myads"
+            ],
             "server": "block"
         },
             {
