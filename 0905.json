@@ -358,6 +358,7 @@
                     "googlesyndication.com",
                     "googleapis.cn",
                     "odysseyplus.site",
+                    "bing.com",
                     "xtremetop100.com"],
                 "outbound": "Proxy"
             },
