@@ -642,7 +642,7 @@
                 "url": "https://raw.githubusercontents.com/jmakchnn/sing-box-geosite/refs/heads/main/rule/my-ads.srs",
                 "download_detour": "direct"
             },
-                        {
+            {
                 "tag": "myproxy",
                 "type": "remote",
                 "format": "binary",
