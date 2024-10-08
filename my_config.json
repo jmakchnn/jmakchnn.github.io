@@ -349,11 +349,7 @@
             "outbound": "dns-out"
         },
             {
-                "domain_suffix": ["520click.com",
-                    "googlesyndication.com",
-                    "googleapis.cn",
-                    "odysseyplus.site",
-                    "xtremetop100.com"],
+                "rule_set": "myproxy",
                 "outbound": "Proxy"
             },
             {
@@ -642,8 +638,15 @@
             {
                 "tag": "myads",
                 "type": "remote",
-                "format": "source",
-                "url": "https://raw.githubusercontents.com/jmakchnn/jmakchnn.github.io/main/myads.json",
+                "format": "binary",
+                "url": "https://raw.githubusercontents.com/jmakchnn/sing-box-geosite/refs/heads/main/rule/my-ads.srs",
+                "download_detour": "direct"
+            },
+                        {
+                "tag": "myproxy",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontents.com/jmakchnn/sing-box-geosite/refs/heads/main/rule/myproxy.srs",
                 "download_detour": "direct"
             },
             {
