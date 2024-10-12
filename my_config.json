@@ -356,6 +356,7 @@
                 "rule_set": [
                     "adrules",
                     "geosite-category-ads-all",
+                    "antiad",
                     "myads"],
                 "outbound": "AdBlock"
             },
@@ -633,6 +634,13 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://adrules.top/adrules-singbox.srs",
+                "download_detour": "direct"
+            },
+            {
+                "tag": "antiad",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontents.com/jmakchnn/sing-box-geosite/refs/heads/main/rule/anti-ad-clash.srs",
                 "download_detour": "direct"
             },
             {
