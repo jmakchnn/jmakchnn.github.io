@@ -455,6 +455,10 @@
                 "outbound": "Global"
             },
             {
+                "package_name": "com.google.android.apps.bard",
+                "outbound": "Global"
+            },
+            {
                 "rule_set": [
                     "geoip-cn",
                     "geosite-cn"
