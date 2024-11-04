@@ -47,6 +47,7 @@
         "rules": [{
             "rule_set": [
                 "geosite-category-ads-all",
+                "myads",
                 "AdguardSDNSFilter"
             ],
             "server": "block"
