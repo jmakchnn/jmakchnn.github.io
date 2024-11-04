@@ -45,7 +45,10 @@
                 "address": "rcode://success"
             }],
         "rules": [{
-            "rule_set": "geosite-category-ads-all",
+            "rule_set": [
+                "geosite-category-ads-all",
+                "AdguardSDNSFilter"
+            ],
             "server": "block"
         },
             {
@@ -374,7 +377,6 @@
                     "yacd.metacubex.one",
                     "yacd.haishan.me",
                     "www.tvyb03.com",
-                    "torrentio.strem.fun",
                     "d.metacubex.one"
                 ],
                 "outbound": "direct"
@@ -660,6 +662,13 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/jmakchnn/sing-box-geosite/refs/heads/main/rule/myproxy.srs",
+                "download_detour": "direct"
+            },
+            {
+                "tag": "AdguardSDNSFilter",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/jmakchnn/sing-box-geosite/refs/heads/main/binary/adguard/AdGuardDNSFilter.srs",
                 "download_detour": "direct"
             },
             {
