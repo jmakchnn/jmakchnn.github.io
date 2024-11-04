@@ -372,13 +372,7 @@
                 "outbound": "Proxy"
             },
             {
-                "domain": [
-                    "clash.razord.top",
-                    "yacd.metacubex.one",
-                    "yacd.haishan.me",
-                    "www.tvyb03.com",
-                    "d.metacubex.one"
-                ],
+                "rule_set": "mydirect",
                 "outbound": "direct"
             },
             {
@@ -662,6 +656,13 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/jmakchnn/sing-box-geosite/refs/heads/main/rule/myproxy.srs",
+                "download_detour": "direct"
+            },
+            {
+                "tag": "mydirect",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/jmakchnn/sing-box-geosite/refs/heads/main/rule/mydirect.srs",
                 "download_detour": "direct"
             },
             {
