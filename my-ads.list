@@ -17,6 +17,7 @@ DOMAIN,a.64e98469810bd13e2b45e52d19d6fddfe333b3528350d8cfa792d478.com
 DOMAIN,a.7726f27549de609644ca54296d723a4704ca5663d4e6072fc21ff4c4.com
 DOMAIN,a.9803b63f1b6985c3d2fd33dc4acf0d138e6b830271b0716489f7c0df.com
 DOMAIN,a.a9e5f222f1029c111ccc360e6a6dc2bdb29fcb9b684736946ab10e90.com
+DOMAIN,a.eee3707b73b1344ab114906b842c4d0b76c8e6d2613538819c66615a.com
 DOMAIN,sentry.appodeal.com
 DOMAIN,d.applovin.com
 DOMAIN,a4.applovin.com
@@ -24,3 +25,7 @@ DOMAIN,yandex.ru
 DOMAIN,firebaseinstallations.googleapis.com
 DOMAIN,torrentsearch.shop
 DOMAIN,rt.applovin.com
+DOMAIN,mads.amazon-adsystem.com
+DOMAIN,req.startappservice.com
+DOMAIN,s.amazon-adsystem.com
+DOMAIN,c.amazon-adsystem.com
