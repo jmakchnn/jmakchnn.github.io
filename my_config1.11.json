@@ -370,7 +370,8 @@
             {
                 "rule_set": [
                     "geoip-facebook",
-                    "geosite-facebook"
+                    "geosite-facebook",
+                    "instagram"
                 ],
                 "action": "route",
                 "outbound": "Facebook"
@@ -641,6 +642,13 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/jmakchnn/sing-box-geosite/refs/heads/main/binary/adguard/AdGuardDNSFilter.srs",
+                "download_detour": "direct"
+            },
+            {
+                "tag": "instagram",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/instagram.srs",
                 "download_detour": "direct"
             },
             {
