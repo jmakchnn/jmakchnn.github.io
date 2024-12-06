@@ -27,6 +27,12 @@
             "disable_cache": true
         },
             {
+                "rule_set": "AdGuardDNSFilter",
+                "action": "reject",
+                "method": "default",
+                "no_drop": false
+            },
+            {
                 "clash_mode": "Direct",
                 "action": "route",
                 "server": "localdns"
@@ -631,7 +637,7 @@
                 "download_detour": "direct"
             },
             {
-                "tag": "AdguardSDNSFilter",
+                "tag": "AdGuardDNSFilter",
                 "type": "remote",
                 "format": "binary",
                 "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/jmakchnn/sing-box-geosite/refs/heads/main/binary/adguard/AdGuardDNSFilter.srs",
