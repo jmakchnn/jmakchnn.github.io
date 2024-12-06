@@ -10,7 +10,7 @@
             "address_resolver": "localdns",
             "address_strategy": "ipv4_only",
             "strategy": "ipv4_only",
-            "detour": "proxy",
+            "detour": "Proxy",
             "client_subnet": "1.0.1.0"
         },
             {
