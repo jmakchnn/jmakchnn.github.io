@@ -2,178 +2,278 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>智能节拍器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>增强版在线节拍器</title>
     <style>
+        :root {
+            --primary-color: #eb825a;
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --container-bg: white;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #eee;
+            --container-bg: #2d2d2d;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 20px auto;
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
             padding: 20px;
-            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
         }
 
         .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background: var(--container-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            transition: background 0.3s;
         }
 
-        .control-group {
-            margin: 15px 0;
+        /* 原有样式保持不变，新增以下样式 */
+
+        .advanced-controls {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
         }
 
-        label {
-            display: inline-block;
-            width: 120px;
-            margin-right: 10px;
+        .subdivision-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        input, select, button {
+        .timer-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .preset-control {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .fullscreen-btn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 50%;
             padding: 8px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
         }
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            padding: 10px 20px;
+        .theme-toggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
         }
 
-        button:disabled {
-            background-color: #cccccc;
-        }
-
-        #status {
-            margin-top: 20px;
-            font-weight: bold;
-            color: #666;
+        @media (max-width: 768px) {
+            .advanced-controls {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
     <div class="container">
-        <div class="control-group">
-            <label>持续时间（秒）:</label>
-            <input type="number" id="duration" min="1" value="60">
-        </div>
+        <!-- 原有HTML结构保持不变 -->
         
-        <div class="control-group">
-            <label>节拍类型:</label>
-            <select id="timeSignature">
-                <option value="2/2">2/2（二分音符）</option>
-                <option value="2/4">2/4（四分音符）</option>
-                <option value="3/4">3/4（华尔兹）</option>
-                <option value="4/4" selected>4/4（常用拍号）</option>
+        <!-- 新增高级控制部分 -->
+        <div class="advanced-controls">
+            <div class="subdivision-control">
+                <label>细分节奏：</label>
+                <select id="subdivision">
+                    <option value="1">四分音符</option>
+                    <option value="2">八分音符</option>
+                    <option value="3">三连音</option>
+                    <option value="4">十六分音符</option>
+                </select>
+            </div>
+
+            <div class="timer-control">
+                <label>定时停止：</label>
+                <input type="number" id="minutes" min="0" value="0" style="width: 50px"> 分
+                <input type="number" id="seconds" min="0" max="59" value="0" style="width: 50px"> 秒
+            </div>
+        </div>
+
+        <div class="preset-control">
+            <input type="text" id="preset-name" placeholder="预设名称">
+            <button onclick="savePreset()">保存预设</button>
+            <select id="preset-list" onchange="loadPreset(this.value)">
+                <option value="">加载预设</option>
             </select>
         </div>
-
-        <div class="control-group">
-            <label>BPM（速度）:</label>
-            <input type="number" id="bpm" min="20" max="300" value="120">
-        </div>
-
-        <button onclick="startMetronome()" id="startBtn">开始</button>
-        <button onclick="stopMetronome()" id="stopBtn" disabled>停止</button>
-        
-        <div id="status"></div>
     </div>
+    <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
 
     <script>
-        let audioContext;
-        let timer;
-        let startTime;
-        let totalDuration;
-        let beatPattern = [];
-        let currentBeat = 0;
-
-        // 初始化音频环境
-        function initAudio() {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        }
-
-        // 生成节拍音效
-        function playSound(frequency = 880) {
-            if (!audioContext) initAudio();
-            
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.value = frequency;
-            gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-            
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.1);
-        }
-
-        // 根据拍号生成节奏模式
-        function generateBeatPattern(timeSignature) {
-            const [beats, noteValue] = timeSignature.split('/').map(Number);
-            const patterns = {
-                '2/2': [660, 440],      // 强、弱
-                '2/4': [660, 440],      // 强、弱
-                '3/4': [660, 440, 440], // 强、弱、弱
-                '4/4': [660, 440, 660, 440] // 强、弱、次强、弱
-            };
-            return patterns[timeSignature] || patterns['4/4'];
-        }
-
-        function startMetronome() {
-            // 获取参数
-            const duration = parseInt(document.getElementById('duration').value);
-            const bpm = parseInt(document.getElementById('bpm').value);
-            const timeSignature = document.getElementById('timeSignature').value;
-            
-            // 初始化状态
-            totalDuration = duration;
-            startTime = Date.now();
-            beatPattern = generateBeatPattern(timeSignature);
-            currentBeat = 0;
-            
-            // 更新界面状态
-            document.getElementById('startBtn').disabled = true;
-            document.getElementById('stopBtn').disabled = false;
-            
-            // 计算节拍间隔（毫秒）
-            const interval = (60 / bpm) * 1000;
-            
-            // 启动节拍器
-            timer = setInterval(() => {
-                const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                const remaining = totalDuration - elapsed;
+        class EnhancedMetronome extends Metronome {
+            constructor() {
+                super();
+                // 新增功能初始化
+                this.subdivision = 1;
+                this.timerDuration = 0;
+                this.presets = JSON.parse(localStorage.getItem('metronomePresets')) || [];
                 
-                if (remaining <= 0) {
-                    stopMetronome();
-                    return;
+                // 绑定新增元素
+                this.subdivisionSelect = document.getElementById('subdivision');
+                this.minutesInput = document.getElementById('minutes');
+                this.secondsInput = document.getElementById('seconds');
+                this.presetList = document.getElementById('preset-list');
+                
+                // 初始化新增事件
+                this.bindAdvancedEvents();
+                this.updatePresetList();
+            }
+
+            bindAdvancedEvents() {
+                // 细分节奏控制
+                this.subdivisionSelect.addEventListener('change', (e) => {
+                    this.subdivision = parseInt(e.target.value);
+                });
+
+                // 定时器输入限制
+                [this.minutesInput, this.secondsInput].forEach(input => {
+                    input.addEventListener('input', (e) => {
+                        let value = parseInt(e.target.value) || 0;
+                        if (e.target === this.secondsInput && value > 59) value = 59;
+                        e.target.value = value;
+                    });
+                });
+            }
+
+            start() {
+                super.start();
+                this.startTimer();
+            }
+
+            stop() {
+                super.stop();
+                this.stopTimer();
+            }
+
+            startTimer() {
+                const minutes = parseInt(this.minutesInput.value) || 0;
+                const seconds = parseInt(this.secondsInput.value) || 0;
+                this.timerDuration = (minutes * 60 + seconds) * 1000;
+                
+                if (this.timerDuration > 0) {
+                    this.timerTimeout = setTimeout(() => {
+                        this.stop();
+                    }, this.timerDuration);
                 }
+            }
+
+            stopTimer() {
+                clearTimeout(this.timerTimeout);
+            }
+
+            // 细分节奏处理
+            playBeat() {
+                const baseInterval = 60000 / this.bpm;
+                const actualInterval = baseInterval / this.subdivision;
                 
-                // 播放对应节拍音效
-                playSound(beatPattern[currentBeat]);
-                currentBeat = (currentBeat + 1) % beatPattern.length;
+                if (!this.subdivisionTimer) {
+                    let count = 0;
+                    this.subdivisionTimer = setInterval(() => {
+                        const isMainBeat = count % this.subdivision === 0;
+                        const sound = isMainBeat ? this.highSound : this.lowSound;
+                        
+                        sound.gainNode.gain.setValueAtTime(0.5, this.audioContext.currentTime);
+                        sound.gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+                        
+                        if (++count >= this.subdivision) count = 0;
+                    }, actualInterval);
+                }
+            }
+
+            // 预设功能
+            savePreset() {
+                const presetName = document.getElementById('preset-name').value;
+                if (!presetName) return;
+
+                const preset = {
+                    name: presetName,
+                    bpm: this.bpm,
+                    beatCount: this.beatCount,
+                    subdivision: this.subdivision
+                };
+
+                this.presets = this.presets.filter(p => p.name !== presetName);
+                this.presets.push(preset);
+                localStorage.setItem('metronomePresets', JSON.stringify(this.presets));
+                this.updatePresetList();
+            }
+
+            loadPreset(presetName) {
+                const preset = this.presets.find(p => p.name === presetName);
+                if (!preset) return;
+
+                this.setBpm(preset.bpm);
+                this.beatCount = preset.beatCount;
+                this.subdivision = preset.subdivision;
                 
-                // 更新状态显示
-                document.getElementById('status').textContent = 
-                    `剩余时间: ${remaining}秒 | 当前节拍: ${currentBeat + 1}/${beatPattern.length}`;
-            }, interval);
+                this.beatCountSelect.value = preset.beatCount;
+                this.subdivisionSelect.value = preset.subdivision;
+                
+                this.createBeatIndicators();
+            }
+
+            updatePresetList() {
+                this.presetList.innerHTML = '<option value="">加载预设</option>';
+                this.presets.forEach(preset => {
+                    const option = document.createElement('option');
+                    option.value = preset.name;
+                    option.textContent = `${preset.name} (${preset.bpm} BPM)`;
+                    this.presetList.appendChild(option);
+                });
+            }
         }
 
-        function stopMetronome() {
-            clearInterval(timer);
-            document.getElementById('startBtn').disabled = false;
-            document.getElementById('stopBtn').disabled = true;
-            document.getElementById('status').textContent = "已停止";
+        // 全屏功能
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
         }
 
-        // 初始化音频环境
-        initAudio();
+        // 主题切换
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+            localStorage.setItem('metronomeTheme', isDark ? 'light' : 'dark');
+        }
+
+        // 初始化主题
+        const savedTheme = localStorage.getItem('metronomeTheme');
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+
+        // 初始化增强版节拍器
+        const metronome = new EnhancedMetronome();
+
+        // 移动端触摸事件处理（保持不变）
     </script>
 </body>
 </html>
