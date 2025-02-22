@@ -3,175 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>网页节拍器</title>
+    <title>增强版网页节拍器</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f0f0f0;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .bpm-control {
-            margin: 20px 0;
-        }
-
-        .indicator {
-            width: 200px;
-            height: 200px;
-            background-color: #4CAF50;
-            border-radius: 50%;
-            margin: 20px auto;
-            position: relative;
-            transition: background-color 0.1s;
-        }
-
-        .pointer {
-            position: absolute;
-            width: 4px;
-            height: 90px;
-            background-color: white;
-            left: 50%;
-            top: 10px;
-            transform-origin: bottom center;
-            transition: transform 0.1s;
-        }
-
-        button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            background-color: #2196F3;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #1976D2;
-        }
-
-        input[type="range"] {
-            width: 200px;
-            margin: 10px 0;
-        }
-
-        .presets {
+        /* 原有样式保持不变，新增以下样式 */
+        .advanced-controls {
             margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
         }
-    </style>
+
+        .control-group {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .control-group label {
+            display: block;
+            margin: 5px 0;
+            color: #666;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .status {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+</style>
 </head>
 <body>
+    <!-- 原有HTML结构保持不变，在预设按钮下方添加： -->
     <div class="container">
-        <h1>网页节拍器</h1>
-        <div class="bpm-control">
-            <div id="bpmValue">120 BPM</div>
-            <input type="range" id="bpm" min="40" max="240" value="120">
-        </div>
-        <div class="indicator">
-            <div class="pointer"></div>
-        </div>
-        <button id="startStop">开始</button>
-        <button id="soundToggle">声音: 开</button>
+        <!-- ... 原有内容保持不变 ... -->
         
-        <div class="presets">
-            <button class="preset" data-bpm="60">慢速 (60)</button>
-            <button class="preset" data-bpm="90">中速 (90)</button>
-            <button class="preset" data-bpm="120">快速 (120)</button>
+        <div class="advanced-controls">
+            <div class="control-group">
+                <h3>定时设置</h3>
+                <label>
+                    持续时间（分钟）:
+                    <input type="number" id="duration" min="1" value="5">
+                </label>
+                <label>
+                    <input type="checkbox" id="enableTimer"> 启用定时
+                </label>
+            </div>
+
+            <div class="control-group">
+                <h3>节拍设置</h3>
+                <label>
+                    总节拍数:
+                    <input type="number" id="totalBeats" min="1" value="60">
+                </label>
+                <label>
+                    <input type="checkbox" id="enableBeatLimit"> 启用节拍数限制
+                </label>
+            </div>
         </div>
+
+        <div class="status" id="status"></div>
     </div>
 
     <script>
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let isPlaying = false;
-        let timerId = null;
-        let soundOn = true;
+        // 新增变量
+        let beatCount = 0;
+        let startTime = 0;
+        let totalBeats = 0;
+        let duration = 0;
+        let beatLimitEnabled = false;
+        let timerEnabled = false;
 
-        const bpmInput = document.getElementById('bpm');
-        const bpmValue = document.getElementById('bpmValue');
-        const startStopButton = document.getElementById('startStop');
-        const soundToggleButton = document.getElementById('soundToggle');
-        const pointer = document.querySelector('.pointer');
-        const indicator = document.querySelector('.indicator');
-
-        function playClick() {
-            if (!soundOn) return;
-
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.type = 'square';
-            oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
-            
-            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.1);
-        }
-
-        function updateVisual() {
-            pointer.style.transform = `rotate(${Math.sin(Date.now() / 50) * 30}deg)`;
-            indicator.style.backgroundColor = '#FF5722';
-            setTimeout(() => {
-                indicator.style.backgroundColor = '#4CAF50';
-            }, 50);
-        }
-
+        // 修改后的startMetronome函数
         function startMetronome() {
             if (!isPlaying) {
+                // 重置计数器
+                beatCount = 0;
+                startTime = Date.now();
+                totalBeats = parseInt(document.getElementById('totalBeats').value);
+                duration = parseInt(document.getElementById('duration').value) * 60 * 1000;
+                beatLimitEnabled = document.getElementById('enableBeatLimit').checked;
+                timerEnabled = document.getElementById('enableTimer').checked;
+
                 const bpm = parseInt(bpmInput.value);
                 const interval = 60000 / bpm;
                 
                 timerId = setInterval(() => {
+                    // 检查停止条件
+                    if (shouldStop()) {
+                        stopMetronome();
+                        return;
+                    }
+
                     playClick();
                     updateVisual();
+                    beatCount++;
+                    updateStatus();
                 }, interval);
                 
                 isPlaying = true;
                 startStopButton.textContent = '停止';
+                updateStatus();
             } else {
-                clearInterval(timerId);
-                isPlaying = false;
-                startStopButton.textContent = '开始';
+                stopMetronome();
             }
         }
 
-        // 事件监听
-        startStopButton.addEventListener('click', startMetronome);
-        
-        soundToggleButton.addEventListener('click', () => {
-            soundOn = !soundOn;
-            soundToggleButton.textContent = `声音: ${soundOn ? '开' : '关'}`;
+        // 新增停止条件判断
+        function shouldStop() {
+            // 检查节拍数限制
+            if (beatLimitEnabled && beatCount >= totalBeats) return true;
+            
+            // 检查定时限制
+            if (timerEnabled && (Date.now() - startTime) >= duration) return true;
+            
+            return false;
+        }
+
+        // 新增停止函数
+        function stopMetronome() {
+            clearInterval(timerId);
+            isPlaying = false;
+            startStopButton.textContent = '开始';
+            updateStatus(true);
+        }
+
+        // 新增状态更新函数
+        function updateStatus(stopped = false) {
+            const statusElement = document.getElementById('status');
+            if (!isPlaying) {
+                statusElement.textContent = stopped ? '已停止' : '准备就绪';
+                return;
+            }
+
+            let statusText = [];
+            
+            if (timerEnabled) {
+                const elapsed = Date.now() - startTime;
+                const remaining = duration - elapsed;
+                const minutes = Math.floor(remaining / 60000);
+                const seconds = Math.floor((remaining % 60000) / 1000);
+                statusText.push(`剩余时间: ${minutes}:${seconds.toString().padStart(2, '0')}`);
+            }
+
+            if (beatLimitEnabled) {
+                statusText.push(`剩余节拍: ${totalBeats - beatCount}`);
+            }
+
+            statusElement.textContent = statusText.join(' | ');
+        }
+
+        // 新增事件监听（在原有事件监听之后添加）
+        document.getElementById('enableTimer').addEventListener('change', function() {
+            document.getElementById('duration').disabled = !this.checked;
         });
 
-        bpmInput.addEventListener('input', () => {
-            bpmValue.textContent = `${bpmInput.value} BPM`;
+        document.getElementById('enableBeatLimit').addEventListener('change', function() {
+            document.getElementById('totalBeats').disabled = !this.checked;
         });
 
-        document.querySelectorAll('.preset').forEach(button => {
-            button.addEventListener('click', () => {
-                const bpm = button.dataset.bpm;
-                bpmInput.value = bpm;
-                bpmValue.textContent = `${bpm} BPM`;
-            });
-        });
+        // 初始化禁用状态
+        document.getElementById('duration').disabled = true;
+        document.getElementById('totalBeats').disabled = true;
     </script>
 </body>
 </html>
