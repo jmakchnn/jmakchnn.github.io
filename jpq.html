@@ -1,25 +1,32 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>增强版在线节拍器</title>
+    <title>全能在线节拍器</title>
     <style>
         :root {
             --primary-color: #eb825a;
             --bg-color: #f5f5f5;
             --text-color: #333;
-            --container-bg: white;
+            --container-bg: #ffffff;
+            --border-color: #ddd;
         }
 
         [data-theme="dark"] {
+            --primary-color: #ff9666;
             --bg-color: #1a1a1a;
-            --text-color: #eee;
+            --text-color: #e0e0e0;
             --container-bg: #2d2d2d;
+            --border-color: #404040;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -34,58 +41,172 @@
         .container {
             background: var(--container-bg);
             padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 800px;
             transition: background 0.3s;
         }
 
-        /* 原有样式保持不变，新增以下样式 */
+        h1 {
+            text-align: center;
+            margin: 0 0 2rem;
+            color: var(--primary-color);
+        }
+
+        .bpm-display {
+            font-size: 4rem;
+            text-align: center;
+            margin: 1rem 0;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            margin: 1.5rem 0;
+            -webkit-appearance: none;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .beats-container {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .beat-indicator {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--border-color);
+            transition: all 0.1s;
+        }
+
+        .beat-indicator.active {
+            background: var(--primary-color);
+            transform: scale(1.1);
+        }
 
         .advanced-controls {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
             margin-top: 2rem;
         }
 
-        .subdivision-control {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .control-group {
+            background: rgba(0,0,0,0.05);
+            padding: 1rem;
+            border-radius: 10px;
         }
 
-        .timer-control {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .control-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
         }
 
-        .preset-control {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
+        select, input[type="number"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--container-bg);
+            color: var(--text-color);
         }
 
         .fullscreen-btn {
             position: fixed;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             background: rgba(0,0,0,0.1);
-            border-radius: 50%;
-            padding: 8px;
+            border-radius: 8px;
+            padding: 0.8rem;
+            backdrop-filter: blur(5px);
         }
 
         .theme-toggle {
             position: fixed;
-            top: 10px;
-            left: 10px;
+            top: 15px;
+            left: 15px;
+            padding: 0.8rem;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
         }
 
-        @media (max-width: 768px) {
-            .advanced-controls {
-                grid-template-columns: 1fr;
+        .preset-control {
+            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+        }
+
+        #preset-list {
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .bpm-display {
+                font-size: 3rem;
+            }
+            
+            .controls-row {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -93,12 +214,40 @@
 <body>
     <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
     <div class="container">
-        <!-- 原有HTML结构保持不变 -->
+        <h1>全能在线节拍器</h1>
         
-        <!-- 新增高级控制部分 -->
+        <div class="bpm-display">
+            <span id="bpm-value">120</span> BPM
+        </div>
+
+        <div class="controls-row">
+            <button id="decrease-bpm">➖ 减速</button>
+            <input type="range" id="bpm-range" min="40" max="240" value="120">
+            <button id="increase-bpm">➕ 加速</button>
+        </div>
+
+        <div class="beats-container" id="beats-container"></div>
+
+        <div class="controls-row">
+            <button id="play-button">▶ 开始</button>
+            <button id="tap-bpm">👆 点击测速</button>
+        </div>
+
         <div class="advanced-controls">
-            <div class="subdivision-control">
-                <label>细分节奏：</label>
+            <div class="control-group">
+                <label>节拍设置</label>
+                <select id="beat-count">
+                    <option value="1">1/4</option>
+                    <option value="2">2/4</option>
+                    <option value="3">3/4</option>
+                    <option value="4" selected>4/4</option>
+                    <option value="6">6/8</option>
+                    <option value="8">8/8</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>细分节奏</label>
                 <select id="subdivision">
                     <option value="1">四分音符</option>
                     <option value="2">八分音符</option>
@@ -107,114 +256,192 @@
                 </select>
             </div>
 
-            <div class="timer-control">
-                <label>定时停止：</label>
-                <input type="number" id="minutes" min="0" value="0" style="width: 50px"> 分
-                <input type="number" id="seconds" min="0" max="59" value="0" style="width: 50px"> 秒
+            <div class="control-group">
+                <label>定时停止</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="number" id="minutes" min="0" value="0" placeholder="分" style="flex:1">
+                    <input type="number" id="seconds" min="0" max="59" value="0" placeholder="秒" style="flex:1">
+                </div>
             </div>
         </div>
 
-        <div class="preset-control">
-            <input type="text" id="preset-name" placeholder="预设名称">
-            <button onclick="savePreset()">保存预设</button>
-            <select id="preset-list" onchange="loadPreset(this.value)">
-                <option value="">加载预设</option>
+        <div class="control-group preset-control">
+            <input type="text" id="preset-name" placeholder="输入预设名称">
+            <button onclick="savePreset()">💾 保存</button>
+            <select id="preset-list" onchange="loadPreset(this.value)" style="grid-column: span 2;">
+                <option value="">加载预设...</option>
             </select>
         </div>
     </div>
     <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
 
     <script>
-        class EnhancedMetronome extends Metronome {
+        class Metronome {
             constructor() {
-                super();
-                // 新增功能初始化
+                this.bpm = 120;
+                this.beatCount = 4;
                 this.subdivision = 1;
-                this.timerDuration = 0;
+                this.currentBeat = 0;
+                this.isPlaying = false;
+                this.timer = null;
+                this.tapTimes = [];
                 this.presets = JSON.parse(localStorage.getItem('metronomePresets')) || [];
-                
-                // 绑定新增元素
-                this.subdivisionSelect = document.getElementById('subdivision');
-                this.minutesInput = document.getElementById('minutes');
-                this.secondsInput = document.getElementById('seconds');
-                this.presetList = document.getElementById('preset-list');
-                
-                // 初始化新增事件
-                this.bindAdvancedEvents();
-                this.updatePresetList();
+                this.initAudio();
+                this.bindElements();
+                this.bindEvents();
+                this.createBeatIndicators();
+                this.loadSettings();
             }
 
-            bindAdvancedEvents() {
-                // 细分节奏控制
-                this.subdivisionSelect.addEventListener('change', (e) => {
-                    this.subdivision = parseInt(e.target.value);
-                });
+            initAudio() {
+                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                this.highSound = this.createSound(880);
+                this.lowSound = this.createSound(440);
+            }
 
-                // 定时器输入限制
-                [this.minutesInput, this.secondsInput].forEach(input => {
-                    input.addEventListener('input', (e) => {
-                        let value = parseInt(e.target.value) || 0;
-                        if (e.target === this.secondsInput && value > 59) value = 59;
-                        e.target.value = value;
-                    });
+            createSound(freq) {
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                oscillator.type = 'square';
+                oscillator.frequency.setValueAtTime(freq, this.audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                oscillator.start();
+                return { oscillator, gainNode };
+            }
+
+            bindElements() {
+                this.elements = {
+                    bpmValue: document.getElementById('bpm-value'),
+                    bpmRange: document.getElementById('bpm-range'),
+                    playButton: document.getElementById('play-button'),
+                    beatContainer: document.getElementById('beats-container'),
+                    beatCount: document.getElementById('beat-count'),
+                    subdivision: document.getElementById('subdivision'),
+                    minutes: document.getElementById('minutes'),
+                    seconds: document.getElementById('seconds'),
+                    presetList: document.getElementById('preset-list')
+                };
+            }
+
+            bindEvents() {
+                this.elements.bpmRange.addEventListener('input', e => this.setBpm(e.target.value));
+                document.getElementById('decrease-bpm').addEventListener('click', () => this.setBpm(this.bpm - 1));
+                document.getElementById('increase-bpm').addEventListener('click', () => this.setBpm(this.bpm + 1));
+                this.elements.playButton.addEventListener('click', () => this.togglePlay());
+                document.getElementById('tap-bpm').addEventListener('click', () => this.tapBpm());
+                this.elements.beatCount.addEventListener('change', e => this.updateBeatCount(e.target.value));
+                this.elements.subdivision.addEventListener('change', e => this.subdivision = parseInt(e.target.value));
+                [this.elements.minutes, this.elements.seconds].forEach(input => {
+                    input.addEventListener('input', e => this.validateTimeInput(e.target));
                 });
+            }
+
+            setBpm(value) {
+                this.bpm = Math.min(240, Math.max(40, parseInt(value)));
+                this.elements.bpmValue.textContent = this.bpm;
+                this.elements.bpmRange.value = this.bpm;
+                this.saveSettings();
+            }
+
+            updateBeatCount(value) {
+                this.beatCount = parseInt(value);
+                this.createBeatIndicators();
+                this.saveSettings();
+            }
+
+            createBeatIndicators() {
+                this.elements.beatContainer.innerHTML = '';
+                for (let i = 0; i < this.beatCount; i++) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'beat-indicator';
+                    this.elements.beatContainer.appendChild(indicator);
+                }
+            }
+
+            togglePlay() {
+                this.isPlaying = !this.isPlaying;
+                this.elements.playButton.textContent = this.isPlaying ? '⏹ 停止' : '▶ 开始';
+                this.isPlaying ? this.start() : this.stop();
             }
 
             start() {
-                super.start();
+                this.stop();
+                this.currentBeat = 0;
+                const interval = 60000 / (this.bpm * this.subdivision);
+                this.timer = setInterval(() => this.playBeat(), interval);
                 this.startTimer();
             }
 
+            playBeat() {
+                const isMainBeat = this.currentBeat % this.subdivision === 0;
+                const sound = isMainBeat ? this.highSound : this.lowSound;
+                sound.gainNode.gain.setValueAtTime(0.5, this.audioContext.currentTime);
+                sound.gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+                
+                if (isMainBeat) {
+                    this.updateVisual();
+                    this.currentBeat = (this.currentBeat + 1) % (this.beatCount * this.subdivision);
+                }
+            }
+
+            updateVisual() {
+                const indicators = this.elements.beatContainer.children;
+                Array.from(indicators).forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === Math.floor(this.currentBeat / this.subdivision));
+                });
+            }
+
             stop() {
-                super.stop();
+                clearInterval(this.timer);
+                this.currentBeat = 0;
+                this.updateVisual(true);
                 this.stopTimer();
             }
 
+            tapBpm() {
+                const now = Date.now();
+                this.tapTimes = this.tapTimes.filter(t => now - t < 2000);
+                this.tapTimes.push(now);
+                
+                if (this.tapTimes.length > 2) {
+                    const avg = (this.tapTimes[this.tapTimes.length - 1] - this.tapTimes[0]) / (this.tapTimes.length - 1);
+                    this.setBpm(Math.round(60000 / avg));
+                }
+            }
+
             startTimer() {
-                const minutes = parseInt(this.minutesInput.value) || 0;
-                const seconds = parseInt(this.secondsInput.value) || 0;
+                const minutes = parseInt(this.elements.minutes.value) || 0;
+                const seconds = parseInt(this.elements.seconds.value) || 0;
                 this.timerDuration = (minutes * 60 + seconds) * 1000;
                 
                 if (this.timerDuration > 0) {
-                    this.timerTimeout = setTimeout(() => {
-                        this.stop();
-                    }, this.timerDuration);
+                    this.timeout = setTimeout(() => this.stop(), this.timerDuration);
                 }
             }
 
             stopTimer() {
-                clearTimeout(this.timerTimeout);
+                clearTimeout(this.timeout);
             }
 
-            // 细分节奏处理
-            playBeat() {
-                const baseInterval = 60000 / this.bpm;
-                const actualInterval = baseInterval / this.subdivision;
-                
-                if (!this.subdivisionTimer) {
-                    let count = 0;
-                    this.subdivisionTimer = setInterval(() => {
-                        const isMainBeat = count % this.subdivision === 0;
-                        const sound = isMainBeat ? this.highSound : this.lowSound;
-                        
-                        sound.gainNode.gain.setValueAtTime(0.5, this.audioContext.currentTime);
-                        sound.gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
-                        
-                        if (++count >= this.subdivision) count = 0;
-                    }, actualInterval);
-                }
+            validateTimeInput(input) {
+                let value = parseInt(input.value) || 0;
+                if (input === this.elements.seconds && value > 59) value = 59;
+                input.value = value;
             }
 
-            // 预设功能
             savePreset() {
-                const presetName = document.getElementById('preset-name').value;
+                const presetName = document.getElementById('preset-name').value.trim();
                 if (!presetName) return;
 
                 const preset = {
                     name: presetName,
                     bpm: this.bpm,
                     beatCount: this.beatCount,
-                    subdivision: this.subdivision
+                    subdivision: this.subdivision,
+                    minutes: this.elements.minutes.value,
+                    seconds: this.elements.seconds.value
                 };
 
                 this.presets = this.presets.filter(p => p.name !== presetName);
@@ -228,52 +455,78 @@
                 if (!preset) return;
 
                 this.setBpm(preset.bpm);
-                this.beatCount = preset.beatCount;
+                this.updateBeatCount(preset.beatCount);
                 this.subdivision = preset.subdivision;
-                
-                this.beatCountSelect.value = preset.beatCount;
-                this.subdivisionSelect.value = preset.subdivision;
-                
-                this.createBeatIndicators();
+                this.elements.subdivision.value = preset.subdivision;
+                this.elements.minutes.value = preset.minutes;
+                this.elements.seconds.value = preset.seconds;
+                this.saveSettings();
             }
 
             updatePresetList() {
-                this.presetList.innerHTML = '<option value="">加载预设</option>';
-                this.presets.forEach(preset => {
-                    const option = document.createElement('option');
-                    option.value = preset.name;
-                    option.textContent = `${preset.name} (${preset.bpm} BPM)`;
-                    this.presetList.appendChild(option);
+                this.elements.presetList.innerHTML = '<option value="">加载预设...</option>';
+                this.presets.forEach(p => {
+                    const option = new Option(`${p.name} (${p.bpm} BPM)`, p.name);
+                    this.elements.presetList.add(option);
                 });
+            }
+
+            saveSettings() {
+                localStorage.setItem('metronomeSettings', JSON.stringify({
+                    bpm: this.bpm,
+                    beatCount: this.beatCount,
+                    subdivision: this.subdivision,
+                    minutes: this.elements.minutes.value,
+                    seconds: this.elements.seconds.value
+                }));
+            }
+
+            loadSettings() {
+                const settings = JSON.parse(localStorage.getItem('metronomeSettings'));
+                if (settings) {
+                    this.setBpm(settings.bpm);
+                    this.updateBeatCount(settings.beatCount);
+                    this.subdivision = settings.subdivision;
+                    this.elements.subdivision.value = settings.subdivision;
+                    this.elements.minutes.value = settings.minutes;
+                    this.elements.seconds.value = settings.seconds;
+                }
             }
         }
 
-        // 全屏功能
+        // 全局功能
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('metronomeTheme', isDark ? 'light' : 'dark');
+        }
+
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
+                document.documentElement.requestFullscreen().catch(console.log);
             } else {
                 document.exitFullscreen();
             }
         }
 
-        // 主题切换
-        function toggleTheme() {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
-            localStorage.setItem('metronomeTheme', isDark ? 'light' : 'dark');
+        function savePreset() {
+            metronome.savePreset();
         }
 
-        // 初始化主题
-        const savedTheme = localStorage.getItem('metronomeTheme');
-        if (savedTheme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
+        function loadPreset(presetName) {
+            metronome.loadPreset(presetName);
         }
 
-        // 初始化增强版节拍器
-        const metronome = new EnhancedMetronome();
+        // 初始化
+        const savedTheme = localStorage.getItem('metronomeTheme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
 
-        // 移动端触摸事件处理（保持不变）
+        const metronome = new Metronome();
+
+        // 移动端优化
+        document.addEventListener('touchstart', (e) => {
+            if (e.target.tagName === 'BUTTON') e.preventDefault();
+        }, { passive: false });
     </script>
 </body>
 </html>
