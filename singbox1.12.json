@@ -24,7 +24,7 @@
             "no_drop": false
         },
             {
-                "clash_mode": "Direct",
+                "clash_mode": "direct",
                 "action": "route",
                 "server": "localdns"
             },
@@ -309,7 +309,7 @@
                 "no_drop": false
             },
             {
-                "clash_mode": "Direct",
+                "clash_mode": "direct",
                 "action": "route",
                 "outbound": "direct"
             },
