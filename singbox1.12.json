@@ -8,7 +8,7 @@
             "tag": "proxydns",
             "type": "h3",
             "server": "cloudflare-dns.com",
-            "address_resolver": "localdns",
+            "domain_resolver": "localdns",
             "address_strategy": "ipv4_only",
             "strategy": "ipv4_only",
             "detour": "Proxy",
