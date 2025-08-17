@@ -280,7 +280,7 @@
         }],
     "route": {
         "default_domain_resolver": {
-            "server": "local"
+            "server": "localdns"
         },
         {
             "auto_detect_interface": true,
