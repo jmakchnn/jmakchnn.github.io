@@ -7,8 +7,7 @@
         "servers": [{
             "tag": "proxydns",
             "type": "h3",
-            "server": "cloudflare-dns.com",
-            "domain_resolver": "localdns",
+            "server": "1.1.1.1",
             "detour": "Proxy"
         },
             {
