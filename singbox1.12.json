@@ -9,8 +9,7 @@
             "type": "h3",
             "server": "cloudflare-dns.com",
             "domain_resolver": "localdns",
-            "detour": "Proxy",
-            "client_subnet": "1.0.1.0"
+            "detour": "Proxy"
         },
             {
                 "tag": "localdns",
@@ -19,11 +18,11 @@
                 "detour": "direct"
             }],
         "rules": [{
-                "rule_set": "AdGuardDNSFilter",
-                "action": "reject",
-                "method": "default",
-                "no_drop": false
-            },
+            "rule_set": "AdGuardDNSFilter",
+            "action": "reject",
+            "method": "default",
+            "no_drop": false
+        },
             {
                 "clash_mode": "Direct",
                 "action": "route",
@@ -45,6 +44,7 @@
                 "server": "proxydns"
             }],
         "final": "proxydns",
+        "client_subnet": "1.0.1.0",
         "strategy": "ipv4_only"
     },
     "inbounds": [{
