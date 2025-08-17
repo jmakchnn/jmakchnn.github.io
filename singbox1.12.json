@@ -42,7 +42,6 @@
         "strategy": "ipv4_only"
     },
     "inbounds": [{
-        "tag": "tun-in",
         "type": "tun",
         "address": "172.19.0.1/30",
         "mtu": 9000,
@@ -58,7 +57,6 @@
         }
     },
         {
-            "tag": "mixed-in",
             "type": "mixed",
             "listen": "127.0.0.1",
             "listen_port": 2080,
@@ -314,7 +312,7 @@
                     "outbound": "direct"
                 },
                 {
-                    "clash_mode": "Global",
+                    "clash_mode": "global",
                     "action": "route",
                     "outbound": "Proxy"
                 },
