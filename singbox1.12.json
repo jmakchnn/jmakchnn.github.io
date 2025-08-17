@@ -9,7 +9,6 @@
             "type": "h3",
             "server": "cloudflare-dns.com",
             "domain_resolver": "localdns",
-            "strategy": "ipv4_only",
             "detour": "Proxy",
             "client_subnet": "1.0.1.0"
         },
@@ -17,7 +16,6 @@
                 "tag": "localdns",
                 "type": "https",
                 "server": "223.5.5.5",
-                "strategy": "ipv4_only",
                 "detour": "direct"
             }],
         "rules": [{
