@@ -70,9 +70,7 @@
         "tag": "默认节点",
         "type": "selector",
         "outbounds": [
-            "自动选择",
-            "[]"
-        ]
+            "自动选择"]
     },
         {
             "tag": "OpenAI",
@@ -228,54 +226,27 @@
         {
             "tag":"香港节点",
             "type":"selector",
-            "outbounds":[
-                "[]"
-            ],
-            "filter":[{
-                "action":"include","keywords":["🇭🇰|HK|hk|香港|港|HongKong"]}]
-        },
+            "outbounds":[]},
         {
             "tag":"韩国节点",
             "type":"selector",
-            "outbounds":[
-                "[]"
-            ],
-            "filter":[{
-                "action":"include","keywords":["🇰🇷|KR|kr|韩国|韓國|韩|Korea"]}]
-        },
+            "outbounds":[]},
         {
             "tag":"新加坡节点",
             "type":"selector",
-            "outbounds":[
-                "[]"
-            ],
-            "filter":[{
-                "action":"include","keywords":["🇸🇬|SG|sg|新加坡|狮|Singapore"]}]
-        },
+            "outbounds":[]},
         {
             "tag":"日本节点",
             "type":"selector",
-            "outbounds":[
-                "[]"
-            ],
-            "filter":[{
-                "action":"include","keywords":["🇯🇵|JP|jp|日本|日|Japan"]}]
-        },
+            "outbounds":[]},
         {
             "tag":"美国节点",
             "type":"selector",
-            "outbounds":[
-                "[]"
-            ],
-            "filter":[{
-                "action":"include","keywords":["🇺🇸|US|us|美国|美|United States"]}]
-        },
+            "outbounds":[]},
         {
             "tag":"自动选择",
             "type":"urltest",
-            "outbounds":[
-                "[]"
-            ],
+            "outbounds":[],
             "url": "http://www.gstatic.com/generate_204",
             "interval": "10m",
             "tolerance": 50
