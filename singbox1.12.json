@@ -286,7 +286,7 @@
         },
         "auto_detect_interface": true,
         "override_android_vpn": true,
-        "final": "默认节点",
+        "final": "Global",
         "rules": [{
             "action": "sniff"
         },
