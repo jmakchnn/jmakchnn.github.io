@@ -1,0 +1,28 @@
+{
+  "blacklist": [],
+  "cache": true,
+  "custom": {
+    "fuliba.net": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
+    "1337x.to": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.7103.48 Safari/537.36"
+  },
+  "exactMatch": false,
+  "faqs": true,
+  "last-update": 1759934606894,
+  "log": false,
+  "mode": "custom",
+  "parser": {},
+  "popup-browser": "Chrome",
+  "popup-os": "Windows",
+  "protected": [
+    "google.com/recaptcha",
+    "gstatic.com/recaptcha",
+    "accounts.google.com",
+    "accounts.youtube.com",
+    "gitlab.com/users/sign_in",
+    "challenges.cloudflare.com"
+  ],
+  "siblings": {},
+  "whitelist": [],
+  "json-guid": "8b0750a1-c8a4-4b8f-a435-423cdd6d29ee",
+  "json-forced": false
+}
