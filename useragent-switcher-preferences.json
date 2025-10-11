@@ -4,7 +4,7 @@
   "custom": {
     "fuliba.net": "Mozilla/5.0 (Linux; Android 14; Z832 Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.113/114 Mobile Safari/537.36",
     "1337x.to": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.7103.48 Safari/537.36",
-    "zimuku.org, www.zdic.net": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.7103.48 Safari/537.36"
+    "zimuku.org, www.zdic.net, nyaa.si": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.7103.48 Safari/537.36"
   },
   "exactMatch": false,
   "faqs": true,
