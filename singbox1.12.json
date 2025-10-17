@@ -606,7 +606,7 @@
                 "tag": "antiad",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://ghfast.top/https://raw.githubusercontent.com/jmakchnn/sing-box-geosite/refs/heads/main/rule/anti-ad-clash.srs",
+                "url": "https://anti-ad.net/anti-ad-sing-box.srs",
                 "download_detour": "direct"
             },
             {
