@@ -275,6 +275,7 @@
                     "adrules",
                     "geosite-category-ads-all",
                     "antiad",
+                    "AdGuardDNSFilter",
                     "myads"],
                 "action": "reject",
                 "method": "default",
