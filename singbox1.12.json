@@ -304,6 +304,7 @@
                     "adrules",
                     "geosite-category-ads-all",
                     "antiad",
+                    "AdGuardSDNSFilter",
                     "myads"],
                 "action": "reject",
                 "method": "default",
@@ -634,7 +635,7 @@
                 "tag": "AdGuardDNSFilter",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://ghfast.top/https://raw.githubusercontent.com/jmakchnn/sing-box-geosite/refs/heads/main/binary/adguard/AdGuardDNSFilter.srs",
+                "url": "https://ghfast.top/https://raw.githubusercontent.com/jmakchnn/sing-box-geosite/refs/heads/main/rule/AdGuardSDNSFilter.srs",
                 "download_detour": "direct"
             },
             {
