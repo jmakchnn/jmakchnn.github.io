@@ -232,7 +232,8 @@
                 "{all}"
             ],
             "filter":[{
-                "action":"include","keywords":["🇭🇰|HK|hk|香港|港|HongKong"]}]
+                "action":"include",
+                "keywords":["🇭🇰|HK|hk|香港|港|HongKong"]}]
         },
         {
             "tag":"韩国节点",
@@ -241,7 +242,8 @@
                 "{all}"
             ],
             "filter":[{
-                "action":"include","keywords":["🇰🇷|KR|kr|韩国|韓國|韩|Korea"]}]
+                "action":"include",
+                "keywords":["🇰🇷|KR|kr|韩国|韓國|韩|Korea"]}]
         },
         {
             "tag":"新加坡节点",
@@ -250,7 +252,8 @@
                 "{all}"
             ],
             "filter":[{
-                "action":"include","keywords":["🇸🇬|SG|sg|新加坡|狮|Singapore"]}]
+                "action":"include",
+                "keywords":["🇸🇬|SG|sg|新加坡|狮|Singapore"]}]
         },
         {
             "tag":"日本节点",
@@ -259,7 +262,8 @@
                 "{all}"
             ],
             "filter":[{
-                "action":"include","keywords":["🇯🇵|JP|jp|日本|日|Japan"]}]
+                "action":"include",
+                "keywords":["🇯🇵|JP|jp|日本|日|Japan"]}]
         },
         {
             "tag":"美国节点",
@@ -268,7 +272,8 @@
                 "{all}"
             ],
             "filter":[{
-                "action":"include","keywords":["🇺🇸|US|us|美国|美|United States"]}]
+                "action":"include",
+                "keywords":["🇺🇸|US|us|美国|美|United States"]}]
         },
         {
             "tag":"auto",
@@ -293,6 +298,11 @@
             {
                 "protocol": "dns",
                 "action": "hijack-dns"
+            },
+            {
+                "protocol": "bittorrent",
+                "action": "route",
+                "outbound": "direct"
             },
             {
                 "rule_set": "myproxy",

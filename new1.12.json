@@ -266,6 +266,11 @@
                 "action": "hijack-dns"
             },
             {
+                "protocol": "bittorrent",
+                "action": "route",
+                "outbound": "direct"
+            },
+            {
                 "rule_set": "myproxy",
                 "action": "route",
                 "outbound": "默认节点"
