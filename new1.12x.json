@@ -317,8 +317,8 @@
         "outbound": "Facebook"
       },
       {
-        "rule_set": "geoip-microsoft",
-        "outbound": "Microsoft"
+        "rule_set": "geoip-cn",
+        "outbound": "全球直连"
       }
     ],
     "rule_set": [
@@ -404,12 +404,6 @@
         "type": "remote",
         "tag": "geoip-facebook",
         "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/facebook.srs",
-        "download_detour": "全球直连"
-      },
-      {
-        "type": "remote",
-        "tag": "geoip-microsoft",
-        "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/microsoft.srs",
         "download_detour": "全球直连"
       },
       {
